@@ -143,6 +143,15 @@ printf "export CHANGE_MINIKUBE_NONE_USER=true\n" >> /home/vagrant/.bashrc
 printf "export KUBECONFIG=/home/vagrant/.kube/config\n" >> /home/vagrant/.bashrc
 printf "source <(kubectl completion bash)\n" >> /home/vagrant/.bashrc
 
+## Configure AWS client
+mkdir -p $HOME/.aws
+touch $HOME/.aws/config
+touch $HOME/.aws/credentials
+printf "\n\n ## AWS Alias ##\n"
+printf "alias aws='docker run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'\n" >> /home/vagrant/.bashrc
+
+
+
 # Permissions
 sudo chown -R $USER:$USER $HOME/.kube
 sudo chown -R $USER:$USER $HOME/.minikube
