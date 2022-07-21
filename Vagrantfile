@@ -191,7 +191,12 @@ def configureVM(vmCfg, hostname, cpus, mem, srcdir, dstdir)
   vmCfg.vm.box = "roboxes/ubuntu1804"
 
   vmCfg.vm.hostname = hostname
-  vmCfg.vm.network "private_network", ip: "192.168.1.10",  :model_type => "virtio", :autostart => true
+  vmCfg.vm.network "private_network", ip: "192.168.1.10", :model_type => "virtio", :autostart => true
+/
+  for i in 32000..33000
+    vmCfg.vm.network :forwarded_port, guest: i, host: i
+  end
+/
 
   vmCfg.vm.synced_folder '.', '/vagrant', disabled: true
   # sync your laptop's development with this Vagrant VM
