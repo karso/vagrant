@@ -129,7 +129,7 @@ export KUBECONFIG=$HOME/.kube/config
 sudo swapoff -a
 
 ## Start minikube
-sudo -E minikube start -v 4 --vm-driver none --kubernetes-version v${KUBERNETES_VERSION} --bootstrapper kubeadm
+sudo -E minikube start -v 4 --vm-driver docker --kubernetes-version v${KUBERNETES_VERSION} --bootstrapper kubeadm
 
 ## Addons
 sudo -E minikube addons  enable ingress
@@ -142,15 +142,6 @@ printf "export MINIKUBE_HOME=/home/vagrant\n" >> /home/vagrant/.bashrc
 printf "export CHANGE_MINIKUBE_NONE_USER=true\n" >> /home/vagrant/.bashrc
 printf "export KUBECONFIG=/home/vagrant/.kube/config\n" >> /home/vagrant/.bashrc
 printf "source <(kubectl completion bash)\n" >> /home/vagrant/.bashrc
-
-## Configure AWS client
-mkdir -p $HOME/.aws
-touch $HOME/.aws/config
-touch $HOME/.aws/credentials
-printf "\n\n ## AWS Alias ##\n"
-printf "alias aws='docker run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'\n" >> /home/vagrant/.bashrc
-
-
 
 # Permissions
 sudo chown -R $USER:$USER $HOME/.kube
@@ -173,6 +164,26 @@ sudo apt install ansible -y
 
 SCRIPT
 
+$awscli = <<SCRIPT
+
+## Configure AWS client
+mkdir -p $HOME/.aws
+touch $HOME/.aws/config
+touch $HOME/.aws/credentials
+printf "\n\n ## AWS Alias ##\n"
+printf "alias aws='docker run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'\n" >> /home/vagrant/.bashrc
+
+SCRIPT
+
+$terraform = <<SCRIPT
+
+## Install Terraform
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt update
+sudo apt-get install terraform
+
+SCRIPT
 # required_plugins = %w(vagrant-sshfs vagrant-vbguest vagrant-libvirt)
 required_plugins = %w(vagrant-sshfs vagrant-vbguest)
 
@@ -230,6 +241,8 @@ def configureVM(vmCfg, hostname, cpus, mem, srcdir, dstdir)
   vmCfg.vm.provision "shell", inline: $growpart, privileged: false if GROWPART == "true"
   vmCfg.vm.provision "shell", inline: $minikubescript, privileged: false, env: {"KUBERNETES_VERSION" => KUBERNETES_VERSION}
   vmCfg.vm.provision "shell", inline: $ansiblescript, privileged: false
+  vmCfg.vm.provision "shell", inline: $awscli, privileged: false
+  vmCfg.vm.provision "shell", inline: $terraform, privileged: false
 
   return vmCfg
 end
