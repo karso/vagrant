@@ -7,6 +7,7 @@ It can be used for a basic workstation setup. It can also be sued for lab enviro
 - Python 3.6.9
 - ansible 2.9.27
 - Terraform 1.2.6
+- Terragrunt v0.38.6
 - aws-cli/2.7.16 (latest on 19.07.2022)  -- **You need to add your creds under ~/.aws/**
 - Docker 20.10.17
 -  minikube version: v1.26.0

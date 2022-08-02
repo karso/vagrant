@@ -183,8 +183,12 @@ sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(l
 sudo apt update
 sudo apt-get install terraform
 
+wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.38.6/terragrunt_linux_amd64
+sudo mv terragrunt_linux_amd64 /usr/local/bin/terragrunt
+sudo chmod +x /usr/local/bin/terragrunt
+
 SCRIPT
-# required_plugins = %w(vagrant-sshfs vagrant-vbguest vagrant-libvirt)
+# required_plugins = %w(vagrant-sshfs vagrant-vbguest vagvagr rant-libvirt)
 required_plugins = %w(vagrant-sshfs vagrant-vbguest)
 
 required_plugins.each do |plugin|
