@@ -129,7 +129,7 @@ export KUBECONFIG=$HOME/.kube/config
 sudo swapoff -a
 
 ## Start minikube
-sudo -E minikube start -v 4 --vm-driver docker --kubernetes-version v${KUBERNETES_VERSION} --bootstrapper kubeadm
+sudo -E minikube start -v 4 --vm-driver none --kubernetes-version v${KUBERNETES_VERSION} --bootstrapper kubeadm
 
 ## Addons
 sudo -E minikube addons  enable ingress

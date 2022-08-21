@@ -48,3 +48,9 @@ vagrant ssh
 We automatically mount `/shared/vagrant/data` into `/home/vagrant/data`.
 
 For example, you may want to `git clone` some kubernetes manifests into `/shared/vagrant/data` on your host-machine, then you can access them in the vagrant machine.
+
+## ToDo:
+- Fix Bug: 
+    - The minikube is in 'stop' state when the VM launches. Issue with 'vm-driver' or 'driver'
+    - The host docker and the minikube docker registries are different. Need to run ```#eval $(minikube -p minikube docker-env)```
+    - The env vars keep adding to .bashrc every time provision is executed.
