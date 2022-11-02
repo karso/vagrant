@@ -172,6 +172,7 @@ touch $HOME/.aws/config
 touch $HOME/.aws/credentials
 printf "\n\n ## AWS Alias ##\n"
 printf "alias aws='docker run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'\n" >> /home/vagrant/.bashrc
+printf "alias kctl='kubectl'"
 
 SCRIPT
 
